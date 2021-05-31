@@ -118,6 +118,7 @@ func (c *ElasticIndexClient) batch(ctx context.Context) {
 			c.retryBulkIndex(messages, 0)
 			messages = freshSlice()
 		case <-ctx.Done():
+			c.retryBulkIndex(messages, 0)
 			log.Info("shutting down index client batch goroutine")
 			close(c.indexChan)
 			return
